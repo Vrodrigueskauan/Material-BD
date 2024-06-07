@@ -147,4 +147,4 @@ MariaDB [veterinaria]> drop table animal
     -> ;
 Query OK, 0 rows affected (0.009 sec)
 
-MariaDB [veterinaria]>.
+MariaDB [veterinaria]>
