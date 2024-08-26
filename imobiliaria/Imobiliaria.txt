@@ -1,0 +1,99 @@
+CREATE TABLE endreco (
+id_endereco int(11) PRIMARY KEY auto_increment,
+cidade varchar(55) not null,
+estado varchar(55) not null,
+rua varchar(55) not null,
+bairro varchar(255) not null,
+numero int(11) not null,
+cep varchar(55) not null,
+complemento varchar(255)
+);
+
+CREATE TABLE proprietario (
+id_proprietario int(11) PRIMARY KEY auto_increment,
+cpf varchar(55)  not null unique,
+telefone varchar(255),
+nome varchar(255),
+data_nasc date not null,
+email varchar(255) unique,
+rg varchar(55),
+id_endereco int(11),
+FOREIGN KEY(id_endereco) REFERENCES endreco (id_endereco)
+);
+
+CREATE TABLE fiador (
+id_fiador int(11) PRIMARY KEY auto_increment,
+nome varchar,
+telefone varchar(55),
+email varchar(55) not null unique,
+cpf varchar(55),
+rg varchar(55),
+id_endereco int(11),
+FOREIGN KEY(id_endereco) REFERENCES endreco (id_endereco)
+);
+
+CREATE TABLE corretor (
+id_corretor int(11) PRIMARY KEY auto_increment,
+cpf varchar(55),
+data_nasc date,
+imobiliaria varchar(55),
+rg varchar(55),
+email varchar(255),
+telefone varchar(55),
+nome varchar(255)
+id_endereco int(11),
+FOREIGN KEY (id_endereco) REFERENCES endereco (id_endereco)
+);
+
+CREATE TABLE imovel (
+id_imovel int(11) PRIMARY KEY auto_increment,
+quartos int(11),
+tamanho_m2 int(11),
+comodos int(11),
+quintal int(11),
+banheiros int(11),
+andares int(11),
+garagem bit,
+piscina bit,
+alugado bit,
+id_proprietario int(11),
+id_endereco int(11),
+FOREIGN KEY(id_endereco) REFERENCES endreco (id_endereco)
+FOREIGN KEY (id_prprietario) REFERENCES proprietario (id_proprietario)
+);
+
+CREATE TABLE fotos (
+id_fotos int(11) PRIMARY KEY,
+medias varchar(255),
+id_imovel int(11),
+FOREIGN KEY(id_imovel) REFERENCES imovel (id_imovel)
+);
+
+CREATE TABLE inquilino (
+nome varchar(255),
+telefone varchar(55),
+rg varchar(55),
+cpf varchar(55),
+id_inquilino Texto(1) PRIMARY KEY,
+email varchar(255),
+id_fiador int(11),
+id_corretor int(11)
+FOREIGN KEY (id_fiador) REFERENCES fiador (id_fiador)
+FOREIGN KEY (id_corretor) REFERENCES corretor(id_corretor)
+);
+
+CREATE TABLE contrato (
+id_contrato int(11) PRIMARY KEY,
+preco_m decimal(10,2),
+vencimento date,
+data_inic date,
+data_fim Texto(1),
+condicoes varchar(55),
+descricao varchar(255),
+id_imovel int(11),
+id_corretor int(11),
+id_inquilino Texto(1)
+FOREIGN KEY(id_imovel) REFERENCES imovel (id_imovel)
+FOREIGN KEY(id_corretor) REFERENCES corretor (id_corretor)
+FOREIGN KEY(id_inquilino) REFERENCES inquilino (id_inquilino)
+);
